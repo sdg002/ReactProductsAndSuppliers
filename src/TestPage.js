@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {ProductTable} from './ProductTable'
+import {SupplierTable} from './SupplierTable'
 
 
 
@@ -47,26 +48,24 @@ class TestPage extends Component {
     }
     renderSuppliersTable()
     {
-        let sampleProducts=
+        let sampleSuppliers=
         [
-            { id: 1, name: "Trail Shoes", category: "Running", price: 100 },
-            { id: 2, name: "Thermal Hat", category: "Running", price: 12 },
-            { id: 3, name: "Heated Gloves", category: "Running", price: 82.50 },
-            { id: 4, name: "Cheap gloves", category: "Running", price: 34.50 }
+            { id: 1, name: "Zoom Shoes", city: "London", products: [1] },
+            { id: 2, name: "Cosy Gear", city: "New York", products: [2, 3] }
         ]
-        let editCallback=(product)=>
+        let editCallback=(supplier)=>
         {
-            console.log(`Edit callback name=${product.name}`)
+            console.log(`Edit callback name=${supplier.name}`)
         };
-        let deleteCallback=(product)=>
+        let deleteCallback=(supplier)=>
         {
-            console.log(`Delete callback name=${product.name}`)
+            console.log(`Delete callback name=${supplier.name}`)
         };
-        return <ProductTable 
-                products={sampleProducts}
+        return <SupplierTable
+                suppliers={sampleSuppliers}
                 editCallback={editCallback}
                 deleteCallback={deleteCallback}
-                ></ProductTable>
+                ></SupplierTable>
     }
 
     
