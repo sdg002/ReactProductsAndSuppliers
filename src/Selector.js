@@ -31,11 +31,19 @@ class Selector extends Component {
                         }
                     </div>
                     <div className="col">
-                    Content
+                        {
+                            this.RenderSelectedComponent()    
+                        }
                     </div>         
                 </div>
             </div>            
         );
+    }
+    RenderSelectedComponent()
+    {
+        let selected=React.Children.toArray(this.props.children)
+        .filter(c => c.props.name === this.state.selection)        
+        return selected;
     }
     onClick(ev)
     {
