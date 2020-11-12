@@ -5,15 +5,22 @@ import Selector from './Selector';
 import ProductDisplay from './ProductDisplay'
 import SupplierDisplay from './SupplierDisplay'
 import TestPage from './TestPage'
-import myDataStore from "./store";
+import myDataStore from "./mystore";
 
+/*
+The Provider component should wrap up all other components
+You should create a store object and pass it to the 'store' property of the Provider
+This will enable you to bridge the store to the underlying raw component via 'connect' function 
+*/
 function App() {
   return (
-    <Selector>
-      <ProductDisplay name="Products" />
-      <SupplierDisplay name="Suppliers" />
-      <TestPage name="Test page" />
-    </Selector>
+    <Provider store={myDataStore}>
+      <Selector>
+        <ProductDisplay name="Products" />
+        <SupplierDisplay name="Suppliers" />
+        <TestPage name="Test page" />
+      </Selector>
+    </Provider>
   );
 }
 
