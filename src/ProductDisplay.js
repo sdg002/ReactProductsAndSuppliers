@@ -6,7 +6,7 @@ class ProductDisplay extends Component {
     render() {
         return (
             <div>
-                <h2>Product display</h2>             
+                <h2>Product display - connect the table via table connector - HOC component (read about this)</h2>             
             </div>
         );
     }
