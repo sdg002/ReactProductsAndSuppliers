@@ -19,8 +19,11 @@ export class ProductEditor extends Component {
         this.setState(state => state.formData[ev.target.name] =  ev.target.value);
     }
 
-    handleClick = () => {
+    handleSaveClick = () => {
         this.props.saveCallback(this.state.formData);
+    }
+    handleCancelClick = () => {
+        this.props.cancelCallback(this.state.formData);
     }
 
     render() {
@@ -51,11 +54,11 @@ export class ProductEditor extends Component {
                     onChange={ this.handleChange } />
             </div>                          
             <div className="text-center">
-                <button className="btn btn-primary m-1" onClick={ this.handleClick }>
+                <button className="btn btn-primary m-1" onClick={ this.handleSaveClick }>
                     Save
                 </button>
                 <button className="btn btn-secondary" 
-                        onClick={ this.props.cancelCallback }>
+                        onClick={ this.handleCancelClick }>
                     Cancel
                 </button>                
             </div>

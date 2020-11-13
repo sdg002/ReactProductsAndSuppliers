@@ -1,8 +1,21 @@
 import { STORE, UPDATE, DELETE } from "./modelActionTypes";
 import { initialProductData } from "./initialProductData";
+import { STATE_START_EDITING, STATE_END_EDITING, STATE_START_CREATING }  from "./productActions"
 
-export default function(storeData, action) {
+let initialState={
+    editing:false,
+    creating:false,
+    products:initialProductData
+}
+
+export default function(productData, action) {
+    console.log(`Inside Product reducer ${action.type}`)
     switch (action.type) {
+        case STATE_START_CREATING:
+            return {
+                ...productData,
+                creating:!productData.creating
+            }
         // case STORE:
         //     return {
         //         ...storeData, 
@@ -22,6 +35,6 @@ export default function(storeData, action) {
         //             .filter(p => p.id !== action.payload)
         //     }
         default: 
-            return storeData || initialProductData;
+            return productData || initialState;
     }   
 }

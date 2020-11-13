@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ProductEditor } from './ProductEditor';
 import {ProductTable} from './ProductTable'
 import {SupplierTable} from './SupplierTable'
 
@@ -20,8 +21,31 @@ class TestPage extends Component {
                         this.renderSuppliersTable()
                     }
                 </div>
+                <hr></hr>
+                <div>                
+                    {
+                        this.renderProductEditor()
+                    }
+                </div>
             </div>
         );
+    }
+    renderProductEditor()
+    {
+        let sampleProduct={ id: 1, name: "Trail Shoes", category: "Running", price: 100 }
+        let saveCallBack=(product)=>
+        {
+            console.log(`Save callback name=${product.name}`)
+        };
+        let cancelCallBack=(product)=>
+        {
+            console.log(`Cancel callback name=${product.name}`)
+        };
+        return (
+            <div>
+                <h1>Product editor</h1>
+                <ProductEditor product={sampleProduct} saveCallback={saveCallBack} cancelCallback={cancelCallBack}></ProductEditor>
+            </div>)
     }
     renderProductTable()
     {

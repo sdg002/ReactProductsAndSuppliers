@@ -3,17 +3,20 @@ import {ProductTable} from './ProductTable'
 import { connect } from "react-redux";
 import {ProductEditor} from './ProductEditor'
 //import { Button } from 'bootstrap';
+import {startCreatingProduct} from "./mystore/productActions"
 
 
 /*
 This is where we map the properties of the Store to the individual properties of the "props"
 */
 const mapStateToProps = (storeData) => ({
-    myproducts: storeData.productData
+    editing:storeData.productData.editing,
+    creating:storeData.productData.creating,
+    myproducts: storeData.productData.products
 })
 
 const mapDispatchToProps = {
-    createProduct: null,  //to be filled in later on
+    createProduct: startCreatingProduct,  //to be filled in later on
 }
 
 const connectFunction = connect(mapStateToProps, mapDispatchToProps);
@@ -72,6 +75,8 @@ class ProductDisplay extends Component {
         }
     }
     renderMainTable() {
+        console.log(`Inside function renderMainTable of Productdispay creating=${this.props.creating}`)
+        let creating=(this.props.creating===true)?"Creation mode":"Noncreatoin mode";
         return (
             <div>
                 <h2>Product display - connect the table via table connector - HOC component (read about this). Count of products={this.products.length}</h2> 
@@ -82,13 +87,44 @@ class ProductDisplay extends Component {
                     <li>The ProductDisplay page must NOT have to update the Store - the mapping should do that</li>
                 </ol>
                 <hr/>
-                <ProductTable 
-                    products={this.products}
-                    editCallback={(item)=>{this.OnEditItemClick(item)}}
-                    deleteCallback={this.OnDeleteItemClick}
-                ></ProductTable>           
+                <div style={this.GetProductTableStyle()}>
+                    <ProductTable                     
+                        products={this.products}
+                        editCallback={(item)=>{this.OnEditItemClick(item)}}
+                        deleteCallback={this.OnDeleteItemClick}></ProductTable>
+                    <hr/>
+                </div>
+                <div style={this.GetProductEditorStyle()}>
+                    <h1>Product editor comes here. This should be visible={creating}  You were here, trying figure out how to toggle the visiblity of Editor</h1>
+                    <button>Cancel</button>                    
+                </div>
+                <hr/>
+                    <div className="text-center">
+                        <button className="btn btn-primary m-1" 
+                            onClick={ ()=>this.OnCreateProduct() }>
+                            Create Product
+                        </button>
+                    </div>                        
+
             </div>
         );
+    }
+    GetProductEditorStyle()
+    {
+        let display= (this.props.creating)? "block":"none"
+        let style= {"display":display};
+        return style;
+    }
+    GetProductTableStyle()
+    {
+        let display= (this.props.creating)? "none":"block"
+        let style= {"display":display};
+        return style;
+    }
+    OnCreateProduct()
+    {
+        console.log("create product click")
+        this.props.createProduct();
     }
     OnGoBackFromEditing()
     {
