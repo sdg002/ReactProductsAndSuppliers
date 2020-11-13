@@ -9,7 +9,7 @@ import {ProductEditor} from './ProductEditor'
 This is where we map the properties of the Store to the individual properties of the "props"
 */
 const mapStateToProps = (storeData) => ({
-    myproducts: storeData.modelData.products
+    myproducts: storeData.productData
 })
 
 const mapDispatchToProps = {
