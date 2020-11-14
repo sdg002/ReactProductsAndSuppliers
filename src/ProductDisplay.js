@@ -3,7 +3,7 @@ import {ProductTable} from './ProductTable'
 import { connect } from "react-redux";
 import {ProductEditor} from './ProductEditor'
 //import { Button } from 'bootstrap';
-import {startCreatingProduct} from "./mystore/productActions"
+import {startCreatingProduct,cancelCreatingProduct} from "./mystore/productActions"
 
 
 /*
@@ -16,7 +16,8 @@ const mapStateToProps = (storeData) => ({
 })
 
 const mapDispatchToProps = {
-    createProduct: startCreatingProduct,  //to be filled in later on
+    createProduct: startCreatingProduct, 
+    cancelProductCreation:cancelCreatingProduct
 }
 
 const connectFunction = connect(mapStateToProps, mapDispatchToProps);
@@ -82,8 +83,7 @@ class ProductDisplay extends Component {
                 <h2>Product display - connect the table via table connector - HOC component (read about this). Count of products={this.products.length}</h2> 
                 <hr/>
                 <ol>
-                    <li>You have wired up the supply side of the data using mapStateToProps</li>
-                    <li>You should now map the dispatch - The product editor should be able to make a change and persist to the store directly</li>
+                    <li>Wire up the Save handler of the new product click</li>
                     <li>The ProductDisplay page must NOT have to update the Store - the mapping should do that</li>
                 </ol>
                 <hr/>
@@ -92,22 +92,33 @@ class ProductDisplay extends Component {
                         products={this.products}
                         editCallback={(item)=>{this.OnEditItemClick(item)}}
                         deleteCallback={this.OnDeleteItemClick}></ProductTable>
-                    <hr/>
-                </div>
-                <div style={this.GetProductEditorStyle()}>
-                    <h1>Product editor comes here. This should be visible={creating}  You were here, trying figure out how to toggle the visiblity of Editor</h1>
-                    <button>Cancel</button>                    
-                </div>
-                <hr/>
                     <div className="text-center">
                         <button className="btn btn-primary m-1" 
                             onClick={ ()=>this.OnCreateProduct() }>
                             Create Product
                         </button>
                     </div>                        
+                </div>
+                <hr/>
+                <div style={this.GetProductEditorStyle()}>
+                <ProductEditor  
+                    product={{}}
+                    saveCallback={(formData)=>this.OnProductEditorSaveCallBack(formData)} 
+                    cancelCallback={()=>this.OnProductEditorCancelCallBack()}></ProductEditor>
+                    
+                </div>
+                <hr/>
 
             </div>
         );
+    }
+    OnProductEditorSaveCallBack(formData)
+    {
+        console.log("On Save new product save call back")
+    }
+    OnProductEditorCancelCallBack()
+    {
+        this.props.cancelProductCreation();
     }
     GetProductEditorStyle()
     {

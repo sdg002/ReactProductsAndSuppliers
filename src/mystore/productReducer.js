@@ -1,6 +1,6 @@
 import { STORE, UPDATE, DELETE } from "./modelActionTypes";
 import { initialProductData } from "./initialProductData";
-import { STATE_START_EDITING, STATE_END_EDITING, STATE_START_CREATING }  from "./productActions"
+import { STATE_START_EDITING, STATE_END_EDITING, STATE_START_CREATING ,STATE_CANCEL_CREATING }  from "./productActions"
 
 let initialState={
     editing:false,
@@ -14,7 +14,12 @@ export default function(productData, action) {
         case STATE_START_CREATING:
             return {
                 ...productData,
-                creating:!productData.creating
+                creating:true
+            }
+        case STATE_CANCEL_CREATING:
+            return {
+                ...productData,
+                creating:false
             }
         // case STORE:
         //     return {
