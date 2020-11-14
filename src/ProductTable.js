@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { ProductTableRow } from "./ProductTableRow";
 
 export class ProductTable extends Component {
-
+    constructor(props)
+    {
+        super(props)
+        console.log(`ProductTable - ctor. Found ${props.products.length} count of products`)
+    }
     render() {
         return <table className="table table-sm table-striped table-bordered">
                 <thead>

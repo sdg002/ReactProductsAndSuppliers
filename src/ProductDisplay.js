@@ -3,7 +3,7 @@ import {ProductTable} from './ProductTable'
 import { connect } from "react-redux";
 import {ProductEditor} from './ProductEditor'
 //import { Button } from 'bootstrap';
-import {startCreatingProduct,cancelCreatingProduct} from "./mystore/productActions"
+import {startCreatingProduct,cancelCreatingProduct,createdProductComplete} from "./mystore/productActions"
 
 
 /*
@@ -15,10 +15,15 @@ const mapStateToProps = (storeData) => ({
     myproducts: storeData.productData.products
 })
 
-const mapDispatchToProps = {
-    createProduct: startCreatingProduct, 
-    cancelProductCreation:cancelCreatingProduct
-}
+const mapDispatchToProps =(dispatch)=>( {
+    createProduct: ()=> dispatch(startCreatingProduct()), 
+    cancelProductCreation: ()=>dispatch(cancelCreatingProduct()),
+    saveNewProductCallBack: (newProduct)=>{
+        dispatch(createdProductComplete(newProduct));
+        //dispatch(cancelCreatingProduct());
+    }
+    
+});
 
 const connectFunction = connect(mapStateToProps, mapDispatchToProps);
 
@@ -76,7 +81,7 @@ class ProductDisplay extends Component {
         }
     }
     renderMainTable() {
-        console.log(`Inside function renderMainTable of Productdispay creating=${this.props.creating}`)
+        console.log(`Inside function renderMainTable of Productdispay creating=${this.props.creating}, count of products=${this.props.myproducts.length}`)
         let creating=(this.props.creating===true)?"Creation mode":"Noncreatoin mode";
         return (
             <div>
@@ -90,6 +95,7 @@ class ProductDisplay extends Component {
                 <div style={this.GetProductTableStyle()}>
                     <ProductTable                     
                         products={this.products}
+                        key={this.products.length}
                         editCallback={(item)=>{this.OnEditItemClick(item)}}
                         deleteCallback={this.OnDeleteItemClick}></ProductTable>
                     <div className="text-center">
@@ -115,6 +121,7 @@ class ProductDisplay extends Component {
     OnProductEditorSaveCallBack(formData)
     {
         console.log("On Save new product save call back")
+        this.props.saveNewProductCallBack(formData);
     }
     OnProductEditorCancelCallBack()
     {

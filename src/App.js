@@ -6,6 +6,7 @@ import ProductDisplay from './ProductDisplay'
 import SupplierDisplay from './SupplierDisplay'
 import TestPage from './TestPage'
 import myDataStore from "./mystore";
+import TestArrayRendering from "./TestArrayRendering"
 
 /*
 The Provider component should wrap up all other components
@@ -19,6 +20,7 @@ function App() {
         <ProductDisplay name="Products" />
         <SupplierDisplay name="Suppliers" />
         <TestPage name="Test page" />
+        <TestArrayRendering name="Test array rendering"></TestArrayRendering>        
       </Selector>
     </Provider>
   );
