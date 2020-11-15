@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import {startCreatingProduct,cancelCreatingProduct,createdProductComplete, deleteProductComplete, editProductComplete} from "./mystore/productActions"
 import {ProductTable} from './ProductTable'
+import Modal from "react-modal"
+import {ProductEditor} from "./ProductEditor"
 
 const mapStateToProps = (storeData) => ({
     myproducts: storeData.productData.products
@@ -17,6 +19,10 @@ class TestArrayRendering extends Component {
     constructor(props)
     {
         super(props)
+        this.state={
+            isEditorOpen:false,
+            currentProduct:null
+        }
     }
     render() {
         console.log("Render of TestArrayRendering")
@@ -28,14 +34,41 @@ class TestArrayRendering extends Component {
                 <hr></hr>
                 <ProductTable                     
                         products={this.props.myproducts}
-                        editCallback={null}
+                        editCallback={(item)=>this.OnEditItem(item)}
                         deleteCallback={(item)=>this.props.deleteProductCallBack(item)}>
                 </ProductTable>
-
+                <Modal isOpen={this.state.isEditorOpen}>
+                    <ProductEditor 
+                    product={this.state.currentProduct}
+                    cancelCallback={()=>this.OnProductEditorCancelCallBack()}
+                    saveCallback={(formData)=>this.OnProductEditorSaveCallBack(formData)} 
+                    ></ProductEditor>
+                </Modal>
             </div>
         );
     }
+    OnProductEditorSaveCallBack(item)
+    {
+        this.props.editExistingProductCallBack(item);
+        this.setState({
+            isEditorOpen:false
+        })
+    }
+    OnProductEditorCancelCallBack(item)
+    {
+        this.setState({
+            isEditorOpen:false
+        })
+    }
     //Objective - force an Edit by changing the FirstName of the first item in the products array
+    OnEditItem(item)
+    {
+        //alert(item.name)
+        this.setState({
+            isEditorOpen:!this.state.isEditorOpen,
+            currentProduct:item
+        })
+    }
     OnEditFirstItem()
     {
         let firsItem = (this.props.myproducts.length == 0)?null:this.props.myproducts[0];
