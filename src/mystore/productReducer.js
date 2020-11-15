@@ -1,6 +1,6 @@
 import { STORE, UPDATE, DELETE } from "./modelActionTypes";
 import { initialProductData } from "./initialProductData";
-import { STATE_START_EDITING, STATE_END_EDITING, STATE_START_CREATING ,STATE_CANCEL_CREATING, STATE_COMPLETE_CREATING,DELETE_PRODUCT }  from "./productActions"
+import { STATE_START_EDITING, STATE_END_EDITING, STATE_START_CREATING ,STATE_CANCEL_CREATING, CREATE_PRODUCT,DELETE_PRODUCT, EDIT_PRODUCT }  from "./productActions"
 
 let initialState={
     editing:false,
@@ -16,12 +16,7 @@ export default function(productData, action) {
                 ...productData,
                 creating:true
             }
-        case STATE_CANCEL_CREATING:
-            return {
-                ...productData,
-                creating:false
-            }
-        case STATE_COMPLETE_CREATING:
+        case CREATE_PRODUCT:
             let newProduct=action.payload;
             if (newProduct.id === undefined)
             {
@@ -39,7 +34,14 @@ export default function(productData, action) {
                 ...productData,
                 products:productData.products.filter(p=> p.id !=productGettingDeleted.id)
             }
-        // case STORE:
+        case EDIT_PRODUCT:
+            let productGettingEdited=action.payload;
+            let arrWithoutEditedProduct=productData.products.filter(p=> p.id !=productGettingEdited.id);
+            return {
+                ...productData,
+                products:[...arrWithoutEditedProduct,productGettingEdited]
+            }
+            // case STORE:
         //     return {
         //         ...storeData, 
         //         [action.dataType]:

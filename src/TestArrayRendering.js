@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import {startCreatingProduct,cancelCreatingProduct,createdProductComplete, deleteProductComplete} from "./mystore/productActions"
+import {startCreatingProduct,cancelCreatingProduct,createdProductComplete, deleteProductComplete, editProductComplete} from "./mystore/productActions"
 import {ProductTable} from './ProductTable'
 
 const mapStateToProps = (storeData) => ({
@@ -9,7 +9,8 @@ const mapStateToProps = (storeData) => ({
 
 const mapDispatchToProps =(dispatch)=>( {
     saveNewProductCallBack:(newProduct)=>{dispatch(createdProductComplete(newProduct));}   ,
-    deleteProductCallBack:(existingProduct)=>{dispatch(deleteProductComplete(existingProduct));}    
+    deleteProductCallBack:(existingProduct)=>{dispatch(deleteProductComplete(existingProduct));},
+    editExistingProductCallBack:(existingProduct)=>{dispatch(editProductComplete(existingProduct));}
 });
 
 class TestArrayRendering extends Component {
@@ -18,10 +19,12 @@ class TestArrayRendering extends Component {
         super(props)
     }
     render() {
+        console.log("Render of TestArrayRendering")
         return (
             <div>
                 <h1>Test array rendering- Handle delete click by adding to </h1>
                 <button onClick={()=>this.OnAddNewItem()}>Add new item</button><span>Count of products={this.props.myproducts.length}</span>
+                <button onClick={()=>this.OnEditFirstItem()}>Edit first item</button>
                 <hr></hr>
                 <ProductTable                     
                         products={this.props.myproducts}
@@ -31,6 +34,18 @@ class TestArrayRendering extends Component {
 
             </div>
         );
+    }
+    //Objective - force an Edit by changing the FirstName of the first item in the products array
+    OnEditFirstItem()
+    {
+        let firsItem = (this.props.myproducts.length == 0)?null:this.props.myproducts[0];
+        if (firsItem === null)
+        {
+            return;
+        }
+        firsItem.name=firsItem.name + (new Date()).getSeconds();
+        this.props.editExistingProductCallBack(firsItem);
+
     }
     OnAddNewItem()
     {

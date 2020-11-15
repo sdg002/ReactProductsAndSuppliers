@@ -121,6 +121,13 @@ class ProductDisplay extends Component {
     OnProductEditorSaveCallBack(formData)
     {
         console.log("On Save new product save call back")
+        let allIds=this.props.myproducts.map(p=>p.id);
+        let newid=Math.max(...allIds)+1
+
+        if ((formData.id === undefined) || (!formData.id))
+        {
+            formData.id=newid+1
+        }
         this.props.saveNewProductCallBack(formData);
     }
     OnProductEditorCancelCallBack()
